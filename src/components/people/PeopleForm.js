@@ -10,7 +10,7 @@ const PeopleForm = (props) => {
       phoneNumber: "",
     },
   });
-  const { people, setPeople } = props;
+  const { people, setPeople, setIsFormVisible } = props;
 
   const onSubmit = async (data) => {
     try {
@@ -35,7 +35,7 @@ const PeopleForm = (props) => {
   
       // setPeople ile güncel veriyi ayarlayın
       setPeople(newPeople);
-      console.log(people)
+      setIsFormVisible(false)
     } catch (error) {
       console.error('Error:', error);
     }

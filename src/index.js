@@ -4,6 +4,8 @@ import './custom.scss';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./store"
+
 
 const router = createBrowserRouter([
   { path: '*', element: <App /> }, // 'element' changed from 'Component' to 'element'

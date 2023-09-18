@@ -35,7 +35,7 @@ const AddInfo = () => {
         {isListVisible && <PeopleList people={people} setPeople={setPeople} />}{" "}
       </div>
       <div className="my-6">
-        {isFormVisible && <PeopleForm people={people} setPeople={setPeople} />}{" "}
+        {isFormVisible && <PeopleForm setIsFormVisible={setIsFormVisible} people={people} setPeople={setPeople} />}{" "}
       </div>
       <div className="text-center flex justify-center gap-20">
         <Button onClick={toggleList}>
