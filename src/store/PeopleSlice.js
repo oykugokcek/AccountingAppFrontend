@@ -19,6 +19,21 @@ export const addPerson = createAsyncThunk(
   }
 );
 
+export const updatePerson = createAsyncThunk(
+  'people/updatePerson', 
+  async ({ id, data }) => {
+    console.log(id)
+    if (!data || Object.keys(data).length === 0) {
+      throw new Error("Güncellenecek veriler eksik veya boş.");
+    }
+
+    const response = await axios.put(`${PEOPLE_URL}/${id}`, data);
+    console.log(response)
+    return response.data;
+  }
+);
+
+
 const peopleSlice = createSlice({
   name: "people",
   initialState: {
@@ -51,7 +66,24 @@ const peopleSlice = createSlice({
       .addCase(addPerson.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      }).addCase(updatePerson.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updatePerson.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Güncellenen kişiyi mevcut kişilerle değiştirin
+        state.people = state.people.map((person) => {
+          if (person.id === action.payload.id) {
+            return action.payload;
+          }
+          return person;
+        });
+      })
+      .addCase(updatePerson.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
+      
   },
 });
 
