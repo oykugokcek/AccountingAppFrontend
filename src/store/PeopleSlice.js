@@ -33,6 +33,15 @@ export const updatePerson = createAsyncThunk(
   }
 );
 
+export const deletePerson = createAsyncThunk(
+  'people/deletePerson',
+  async ({id}) => {
+    console.log(id)
+    await axios.delete(`${PEOPLE_URL}/${id}`);
+    return id;
+  }
+)
+
 
 const peopleSlice = createSlice({
   name: "people",
@@ -41,7 +50,6 @@ const peopleSlice = createSlice({
     status: "idle",
     error: null
   },
-  
   extraReducers: (builder) => {
     builder
       .addCase(fetchPeople.pending, (state) => {
@@ -60,18 +68,17 @@ const peopleSlice = createSlice({
       })
       .addCase(addPerson.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Yeni kişiyi eklemek için mevcut kişileri ve yeni kişiyi birleştirin
         state.people = [...state.people, action.payload];
       })
       .addCase(addPerson.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      }).addCase(updatePerson.pending, (state) => {
+      })
+      .addCase(updatePerson.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(updatePerson.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Güncellenen kişiyi mevcut kişilerle değiştirin
         state.people = state.people.map((person) => {
           if (person.id === action.payload.id) {
             return action.payload;
@@ -82,8 +89,19 @@ const peopleSlice = createSlice({
       .addCase(updatePerson.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(deletePerson.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deletePerson.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const deletedPersonId = action.payload;
+        state.people = state.people.filter((person) => person.id !== deletedPersonId);
+      })
+      .addCase(deletePerson.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
-      
   },
 });
 

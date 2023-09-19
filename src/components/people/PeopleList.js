@@ -4,6 +4,7 @@ import {
   fetchPeople,
   selectAllPeople,
   getPeopleStatus,
+  deletePerson,
 } from "../../store/PeopleSlice";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -29,7 +30,13 @@ const PeopleList = (props) => {
     }
   }, [people, peopleStatus]);
 
-  const handleDelete = async (id) => {};
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deletePerson({id}))
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleEdit = (id) => {
     setEditedPersonId(id);
