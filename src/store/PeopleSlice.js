@@ -7,7 +7,14 @@ export const fetchPeople = createAsyncThunk(
   'people/fetchPeople', 
   async () => {
     const response = await axios.get(PEOPLE_URL);
-    console.log(response)
+    return response.data;
+  }
+);
+
+export const addPerson = createAsyncThunk(
+  'people/addPerson', 
+  async (data) => {
+    const response = await axios.post(PEOPLE_URL, data);
     return response.data;
   }
 );
@@ -19,9 +26,7 @@ const peopleSlice = createSlice({
     status: "idle",
     error: null
   },
-  reducers: {
-
-  },
+  
   extraReducers: (builder) => {
     builder
       .addCase(fetchPeople.pending, (state) => {
@@ -34,6 +39,18 @@ const peopleSlice = createSlice({
       .addCase(fetchPeople.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(addPerson.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addPerson.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Yeni kişiyi eklemek için mevcut kişileri ve yeni kişiyi birleştirin
+        state.people = [...state.people, action.payload];
+      })
+      .addCase(addPerson.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
@@ -41,6 +58,5 @@ const peopleSlice = createSlice({
 export const selectAllPeople = (state) => state.people.people;
 export const getPeopleStatus = (state) => state.people.status;
 export const getPeopleError = (state) => state.people.error;
-
 
 export default peopleSlice.reducer;
