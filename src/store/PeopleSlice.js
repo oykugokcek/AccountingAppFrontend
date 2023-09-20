@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const PEOPLE_URL = "http://localhost:8000/api/person/kisiler";
+const PEOPLE_URL = "https://account-app-og.onrender.com/api/person/kisiler";
 
 export const fetchPeople = createAsyncThunk(
   'people/fetchPeople', 
