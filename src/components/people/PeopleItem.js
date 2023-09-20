@@ -4,9 +4,8 @@ import PeopleEditForm from "./PeopleEditForm";
 
 const PeopleItem = (props) => {
   const { person, handleDelete, handleEdit, editedPersonId } = props;
-  const [isEditing, setIsEditing] = useState(false); // Düzenleme durumu
+  const [isEditing, setIsEditing] = useState(false);
 
-  // Düzenleme formu görüntülenirken kişiyi gizleme işlemi
   const hidePerson = () => {
     setIsEditing(false);
   };
@@ -41,13 +40,10 @@ const PeopleItem = (props) => {
             </>
           </td>
         </tr>
-      ) : <PeopleEditForm setIsEditing={setIsEditing} editedPerson={person} />}
-      {isEditing && editedPersonId === person.id && (
+      ) : (
         <tr>
           <td colSpan="5">
-            <Button variant="secondary" onClick={hidePerson}>
-              İptal
-            </Button>
+            <PeopleEditForm setIsEditing={setIsEditing} editedPerson={person} />
           </td>
         </tr>
       )}

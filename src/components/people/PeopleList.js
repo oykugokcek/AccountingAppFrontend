@@ -44,8 +44,8 @@ const PeopleList = (props) => {
 
   return (
     <div>
-      <div style={{ margin: "0 240px" }}>
-        <div>
+      <div  >
+        <div className="mt-5 max-w-2xl mx-auto">
           {isLoading ? (
             <p>Veriler yükleniyor...</p>
           ) : peopleStatus === "failed" ? (

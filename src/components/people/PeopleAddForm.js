@@ -1,7 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addPerson} from "../../store/PeopleSlice";
+import { addPerson } from "../../store/PeopleSlice";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const PeopleAddForm = () => {
   const dispatch = useDispatch();
@@ -28,20 +30,23 @@ const PeopleAddForm = () => {
   };
 
   return (
-    <div>
-      {" "}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" {...register("firstName")} placeholder="Ad" />
-        <input type="text" {...register("lastName")} placeholder="Soyad" />
-        <input
-          type="text"
-          {...register("phoneNumber")}
-          placeholder="Telefon numarası"
-        />
-
-        <button type="submit">Kaydet</button>
-      </form>
-    </div>
+    <Form className="mx-auto max-w-2xl border border-solid p-4" onSubmit={handleSubmit(onSubmit)}>
+      <Form.Group className="mb-3" controlId="firstName">
+        <Form.Label>Ad</Form.Label>
+        <Form.Control type="text" {...register("firstName")} placeholder="Ad" />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="lastName">
+        <Form.Label>Soyad</Form.Label>
+        <Form.Control type="text" {...register("lastName")} placeholder="Soyad" />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="phoneNumber">
+        <Form.Label>Telefon Numarası</Form.Label>
+        <Form.Control type="text" {...register("phoneNumber")} placeholder="Telefon numarası" />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Kaydet
+      </Button>
+    </Form>
   );
 };
 
